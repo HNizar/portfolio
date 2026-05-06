@@ -26,14 +26,14 @@
 }
 
 body.light-mode {
-  --bg:      #f5f5f7;
-  --bg2:     #ffffff;
+  --bg:      #ffffff;
+  --bg2:     #f8f9fb;
   --card:    #ffffff;
-  --border:  rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.15);
-  --text:    #1a1a1a;
-  --muted:   #666666;
-  --muted2:  #333333;
+  --border:  rgba(102,126,234,0.12);
+  --border2: rgba(102,126,234,0.25);
+  --text:    #0f172a;
+  --muted:   #475569;
+  --muted2:  #1e293b;
 }
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -46,7 +46,7 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 .b3{width:400px;height:400px;background:rgba(67,233,123,0.07);bottom:-100px;left:30%}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:rgba(6,6,14,0.7);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);transition:background .3s}
-body.light-mode nav{background:rgba(245,245,247,0.7)}
+body.light-mode nav{background:rgba(255,255,255,0.95);border-bottom:1px solid rgba(102,126,234,0.1)}
 .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--text)}
 .logo .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin-left:2px;vertical-align:middle;animation:blink 2.5s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -68,8 +68,10 @@ h2.s-t em{font-style:normal;background:var(--g1);-webkit-background-clip:text;-w
 #hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem}
 .hero-inner{display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;width:100%}
 .hero-badge{display:inline-flex;align-items:center;gap:.6rem;background:rgba(102,126,234,.12);border:1px solid rgba(102,126,234,.3);padding:.4rem 1rem .4rem .6rem;border-radius:50px;margin-bottom:2rem;width:fit-content}
+body.light-mode .hero-badge{background:rgba(102,126,234,.08);border:1px solid rgba(102,126,234,.2)}
 .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#43e97b,#38f9d7);flex-shrink:0;animation:blink 2s infinite}
 .hero-badge span{font-size:.78rem;font-weight:600;color:#a0f0d0;letter-spacing:.05em}
+body.light-mode .hero-badge span{color:#0f172a}
 h1.hero-name{font-family:'Space Grotesk',sans-serif;font-size:clamp(3.2rem,7vw,5.5rem);font-weight:700;line-height:1.0;letter-spacing:-.04em;margin-bottom:1rem}
 h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d399 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
 .hero-sub{font-size:1.1rem;color:var(--muted2);font-weight:400;margin-bottom:1.5rem}
@@ -92,6 +94,7 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 
 #about .ag{display:grid;grid-template-columns:320px 1fr;gap:4rem;align-items:start}
 .pro-card{background:var(--card);border-radius:20px;border:1px solid var(--border2);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);position:sticky;top:6rem}
+body.light-mode .pro-card{box-shadow:0 8px 32px rgba(102,126,234,0.15)}
 .pc-banner{height:90px;background:var(--g1);position:relative}
 .pc-photo-wrap{display:flex;justify-content:center;margin-top:-48px;padding:0 1.5rem;position:relative;z-index:2}
 .pc-photo{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--card);box-shadow:0 0 0 3px rgba(102,126,234,.5),0 8px 32px rgba(0,0,0,.4)}
@@ -126,6 +129,7 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 
 .srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:1.5rem}
 .srv{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s}
+body.light-mode .srv{box-shadow:0 4px 12px rgba(102,126,234,0.1)}
 .srv::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
 .srv:hover{transform:translateY(-4px);border-color:var(--border2);box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .srv:hover::before{opacity:1}
@@ -148,6 +152,7 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .fbtn.on{background:var(--g1);border-color:transparent;color:#fff;box-shadow:0 4px 20px rgba(102,126,234,.4)}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem}
 .pc{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;display:none}
+body.light-mode .pc{box-shadow:0 4px 12px rgba(102,126,234,0.1)}
 .pc.on{display:block}
 .pc:hover{transform:translateY(-4px);border-color:var(--border2);box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .pi-wrap{position:relative;overflow:hidden;height:170px;background:var(--bg2)}
@@ -161,6 +166,7 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 
 .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
 .cc{display:flex;gap:1rem;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem;transition:border-color .2s,transform .2s}
+body.light-mode .cc{box-shadow:0 2px 8px rgba(102,126,234,0.08)}
 .cc:hover{border-color:var(--border2);transform:translateY(-2px)}
 .cc-ico{width:44px;height:44px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:rgba(129,140,248,.12)}
 .cc-name{font-size:.88rem;font-weight:500;margin-bottom:.15rem}
@@ -170,6 +176,7 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .cl h3{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:.8rem;letter-spacing:-.02em}
 .cl p{color:var(--muted2);font-size:.93rem;margin-bottom:2rem;line-height:1.8}
 .clink{display:flex;gap:1rem;align-items:center;padding:1rem 1.2rem;border-radius:12px;background:var(--card);border:1px solid var(--border);text-decoration:none;margin-bottom:.8rem;transition:border-color .2s,transform .2s}
+body.light-mode .clink{box-shadow:0 2px 8px rgba(102,126,234,0.08)}
 .clink:hover{border-color:rgba(102,126,234,.4);transform:translateX(4px)}
 .cl-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
 .clink:nth-child(1) .cl-ico{background:rgba(102,126,234,.15)}
@@ -182,7 +189,8 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .cform input:focus,.cform select:focus,.cform textarea:focus{border-color:rgba(102,126,234,.6);box-shadow:0 0 0 3px rgba(102,126,234,.1)}
 .cform input::placeholder,.cform textarea::placeholder{color:var(--muted)}
 .cform select option{background:#12122a}
-body.light-mode .cform select option{background:#ffffff}
+body.light-mode .cform select option{background:#ffffff;color:#0f172a}
+body.light-mode nav{background:rgba(255,255,255,0.95)}
 .cform textarea{resize:vertical;min-height:120px}
 .cf-btn{background:var(--g1);color:#fff;border:none;padding:1rem;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;box-shadow:0 8px 28px rgba(102,126,234,.4);transition:transform .15s,box-shadow .2s}
 .cf-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(102,126,234,.55)}
