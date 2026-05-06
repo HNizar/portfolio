@@ -472,14 +472,14 @@ const C = {
   });
 
   document.getElementById('langToggle').addEventListener('click',()=>{
-    lang=lang==='fr'?'en':'fr';
+    lang=lang==='fr'?'🇬🇧':'fr';
     localStorage.setItem('portfolio-lang',lang);
-    document.getElementById('langToggle').textContent=lang==='fr'?'🇫🇷':'en';
+    document.getElementById('langToggle').textContent=lang==='fr'?'🇫🇷':'🇬🇧';
     updateAllText();
   });
 
   function updateAllText(){
-    function txt(fr,en){return lang==='en'?en:fr;}
+    function txt(fr,en){return lang==='🇬🇧'?en:fr;}
     
     // Update nav
     document.querySelectorAll('.nav-links li a').forEach((link,idx)=>{
