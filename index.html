@@ -24,6 +24,17 @@
   --g5: linear-gradient(135deg,#fa709a 0%,#fee140 100%);
   --g6: linear-gradient(135deg,#a18cd1 0%,#fbc2eb 100%);
 }
+
+body.light-mode {
+  --bg:      #f5f5f7;
+  --bg2:     #ffffff;
+  --card:    #ffffff;
+  --border:  rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.15);
+  --text:    #1a1a1a;
+  --muted:   #666666;
+  --muted2:  #333333;
+}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
@@ -36,12 +47,16 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 
 /* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:rgba(6,6,14,0.7);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);transition:background .3s}
+body.light-mode nav{background:rgba(245,245,247,0.7)}
 .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--text)}
 .logo .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin-left:2px;vertical-align:middle;animation:blink 2.5s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{color:var(--muted);font-size:.88rem;font-weight:500;text-decoration:none;transition:color .2s}
 .nav-links a:hover{color:var(--text)}
+.nav-controls{display:flex;gap:1rem;align-items:center}
+.theme-toggle,.lang-toggle{background:transparent;border:1px solid var(--border2);color:var(--text);padding:.5rem .7rem;border-radius:8px;cursor:pointer;font-size:1rem;transition:all .2s;font-weight:600}
+.theme-toggle:hover,.lang-toggle:hover{border-color:rgba(102,126,234,.6);background:rgba(102,126,234,.1)}
 .nav-cta{font-size:.85rem;font-weight:600;padding:.55rem 1.3rem;border-radius:50px;background:var(--g1);color:#fff;text-decoration:none;box-shadow:0 4px 24px rgba(102,126,234,.35);transition:opacity .2s,transform .15s}
 .nav-cta:hover{opacity:.88;transform:translateY(-1px)}
 
@@ -212,6 +227,10 @@ footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify
 <nav id="nav">
   <a href="#hero" class="logo">NH<span class="dot"></span></a>
   <ul class="nav-links" id="nl"></ul>
+  <div class="nav-controls">
+    <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">🌙</button>
+    <button class="lang-toggle" id="langToggle" title="Changer la langue">🇫🇷</button>
+  </div>
   <a id="ncv" href="#" class="nav-cta">Télécharger CV ↓</a>
 </nav>
 
@@ -314,11 +333,11 @@ footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify
         <p id="cts"></p>
         <div id="ctl"></div>
       </div>
-      <form class="cform" onsubmit="return false;">
-        <input type="text" placeholder="Votre nom" required/>
-        <input type="email" placeholder="Votre email" required/>
-        <select id="ctsel"><option value="" disabled selected>Objet du message</option></select>
-        <textarea placeholder="Votre message…" rows="5"></textarea>
+      <form class="cform" action="https://formspree.io/f/mlderjwa" method="POST">
+        <input type="text" name="name" placeholder="Votre nom" required/>
+        <input type="email" name="email" placeholder="Votre email" required/>
+        <select name="subject" required><option value="" disabled selected>Objet du message</option><option value="Entretien pour un CDI">Entretien pour un CDI</option><option value="Projet en freelance">Projet en freelance</option><option value="Question technique">Question technique</option><option value="Collaboration">Collaboration</option><option value="Autre">Autre</option></select>
+        <textarea name="message" placeholder="Votre message…" rows="5" required></textarea>
         <button type="submit" class="cf-btn">Envoyer le message →</button>
       </form>
     </div>
@@ -336,171 +355,227 @@ footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify
 <script>
 const C = {
   prenom:"HATTAD", nom:"Nizar",
-  titre:"Data Analyst & Data Engineer",
-  statut:"Disponible pour missions",
-  desc:"Spécialisé en Business Intelligence, Cloud Computing et intégration de données. Je transforme la complexité des données en insights clairs et décisions stratégiques.",
+  titre:"Data Engineer | Expert en Analyse de Données & Business Intelligence",
+  titre_en:"Data Engineer | Expertise in Data Analysis & Business Intelligence",
+  statut:"Disponible pour CDI & Missions Freelance",
+  statut_en:"Available for Full-time & Freelance Missions",
+  desc:"Spécialisé en Business Intelligence, Cloud Computing et Pipeline Data. Je transforme la complexité des données en insights clairs, dashboards décisionnels et solutions d'automatisation scalables pour les grandes organisations.",
+  desc_en:"Specialized in Business Intelligence, Cloud Computing and Data Pipelines. I transform data complexity into clear insights, decisional dashboards and scalable automation solutions for large organizations.",
   photo:"https://hnizar.github.io/portfolio/img/630x630.png",
   cv:"https://hnizar.github.io/portfolio/pdf/orix.pdf",
 
   stats:[
-    {n:"6+", l:"années d'expérience"},
-    {n:"10+",l:"projets livrés"},
-    {n:"5",  l:"certifications"},
+    {n:"6+", l:"années d'expertise", l_en:"years of expertise"},
+    {n:"15+",l:"projets data livrés", l_en:"data projects delivered"},
+    {n:"8+",  l:"certifications", l_en:"certifications"},
   ],
   pills:[
-    {i:"📊",t:"Power BI",     s:"Dashboards & reporting"},
-    {i:"☁️",t:"Azure & GCP",  s:"Cloud Data"},
-    {i:"🐍",t:"Python & SQL", s:"Data engineering"},
-    {i:"🔄",t:"ETL / Synapse",s:"Flux & migration"},
+    {i:"📊",t:"Power BI, Qlik, Tableau",     s:"Dashboards décisionnels", s_en:"Decisional Dashboards"},
+    {i:"☁️",t:"Azure, AWS, GCP, Snowflake",  s:"Cloud Data Engineering", s_en:"Cloud Data Engineering"},
+    {i:"🐍",t:"Python, SQL, PL/SQL, Java", s:"Data pipelines & backend", s_en:"Data pipelines & backend"},
+    {i:"🔄",t:"ETL/ELT, Informatica, Talend",s:"Flux & intégration", s_en:"Flows & integration"},
   ],
   nav:[
-    {l:"À propos",       h:"#about"},
-    {l:"Expériences",    h:"#experience"},
-    {l:"Services",       h:"#services"},
-    {l:"Projets",        h:"#projects"},
-    {l:"Certifications", h:"#certs"},
-    {l:"Contact",        h:"#contact"},
+    {l:"À propos", l_en:"About", h:"#about"},
+    {l:"Expériences", l_en:"Experience", h:"#experience"},
+    {l:"Services", l_en:"Services", h:"#services"},
+    {l:"Projets", l_en:"Projects", h:"#projects"},
+    {l:"Certifications", l_en:"Certifications", h:"#certs"},
+    {l:"Contact", l_en:"Contact", h:"#contact"},
   ],
   infos:[
-    {l:"Profil",  v:"Consultant Data"},
-    {l:"Âge",    v:"28 ans"},
-    {l:"Lieu",   v:"Lille, France"},
-    {l:"Email",  v:"Nizar.hattad@outlook.fr"},
-    {l:"Tél.",   v:"+33 753 314 191"},
+    {l:"Profil", l_en:"Profile", v:"Data Engineer & Analyst"},
+    {l:"Âge", l_en:"Age", v:"28 ans / years"},
+    {l:"Lieu", l_en:"Location", v:"Lille, France (Hybride/Hybrid)"},
+    {l:"Email", l_en:"Email", v:"nizarhattad.pro@outlook.fr"},
+    {l:"Tél.", l_en:"Phone", v:"+33 753 314 191"},
   ],
-  tagsCard:["Python","Power BI","Azure","ETL","SQL","GCP"],
-  bio:`Analyste de données passionné spécialisé en <strong>Business Intelligence</strong> et <strong>Cloud Computing</strong>. Chez Inetum &amp; ANR, je conçois des bases de données, développe des tableaux de bord et déploie des pipelines cloud. Mon objectif : aider les entreprises à exploiter leurs données pour innover et performer. Toujours à la recherche de nouveaux défis 🌟`,
-  skills:["Python","SQL / PL-SQL","Power BI","Tableau","Azure","GCP","Talend","Synapse Cloud","ETL / ELT","SFTP / AS2","Git","Airflow","JIRA","Agile / Scrum","Excel avancé"],
+  tagsCard:["Python","Power BI","SQL/PL-SQL","Azure","ETL","Informatica","Talend","Machine Learning"],
+  bio:`<strong>Data Engineer & Analyst passionné</strong> avec 6+ années d'expérience en Business Intelligence et Cloud Computing. J'ai travaillé chez <strong>Inetum, WeVii, Exotec, ANR</strong> et <strong>BNP Paribas</strong> sur des projets complexes d'intégration de données, conception de pipelines ETL/ELT et déploiement de solutions BI. Spécialiste en conception de bases de données relationnelles, développement de dashboards décisionnels interactifs et automatisation des flux de données. Mon objectif : aider les entreprises à transformer leurs données en avantage compétitif. Toujours en quête de nouveaux défis technologiques 🚀`,
+  bio_en:`<strong>Passionate Data Engineer & Analyst</strong> with 6+ years of experience in Business Intelligence and Cloud Computing. I have worked at <strong>Inetum, WeVii, Exotec, ANR</strong> and <strong>BNP Paribas</strong> on complex data integration projects, ETL/ELT pipeline design and BI solution deployment. Specialist in relational database design, interactive decisional dashboard development and data flow automation. My goal: helping organizations transform data into competitive advantage. Always seeking new technological challenges 🚀`,
+  skills:["Python","SQL / PL-SQL","Java","PHP","JavaScript","Power BI","Qlik Sense / QlikView","Tableau","SAP BusinessObjects","Azure","AWS","Google Cloud","Snowflake","Oracle DB","SQL Server","MongoDB","Informatica","Talend","SSIS","N8N","Streamlit","Flask","Git","Docker","JIRA","Agile / Scrum","Machine Learning (TensorFlow, Keras, Scikit-learn)"],
 
   exps:[
-    {d:"2023 – Présent",p:"Chef de projet junior",        co:"ANR (Client Inetum)",              desc:"Pilotage de projets data : migration de flux, coordination d'équipes internationales (France/Pologne), gestion des environnements UAT/DR/VSR."},
-    {d:"2022 – 2023",   p:"Data Analyst",                 co:"BNP Paribas Cardif (Client Inetum)",desc:"Analyse de données financières, conception de tableaux de bord Power BI, intégration de flux de données."},
-    {d:"2021 – Présent",p:"Consultant Data / Analyste",   co:"Inetum (ESN)",                     desc:"Missions variées chez des clients grands comptes. Conception de bases de données, ETL, déploiement cloud."},
+    {d:"Oct. 2025 – Présent", d_en:"Oct. 2025 – Present", p:"Analyste de Données", p_en:"Data Analyst", co:"Auchan Retail, Lille", desc:"En cours...", desc_en:"In progress..."},
+    {d:"Mai 2025 – Oct. 2025", d_en:"May 2025 – Oct. 2025", p:"Expert Data & Référent Technique", p_en:"Data Expert & Technical Lead", co:"WeVii, Lille & Paris", desc:"Développement d'une plateforme RH Tech : conception d'un pipeline de données scalable (Formulaire → API → Snowflake), implémentation d'un modèle BERT pour similarité sémantique, création d'interface Streamlit interactive. Résultat : réduction 80% du sourcing manuel, précision >90%. Stack : Python, Snowflake, Streamlit, BERT, N8N, Flask.", desc_en:"Development of HR Tech platform: design of scalable data pipeline (Form → API → Snowflake), BERT model implementation for semantic similarity, interactive Streamlit interface creation. Result: 80% reduction in manual sourcing, >90% accuracy. Stack: Python, Snowflake, Streamlit, BERT, N8N, Flask."},
+    {d:"Mai 2025 – Oct. 2025", d_en:"May 2025 – Oct. 2025", p:"Expert Data", p_en:"Data Expert", co:"Exotec, Lille", desc:"Migration vers SAP : préparation et gestion des fichiers d'objets destinés à l'importation. Développement de scripts Python d'automatisation pour la génération et le formatage des fichiers, assurant conformité et sécurité de la migration.", desc_en:"SAP migration: preparation and management of object files for import. Development of Python automation scripts for file generation and formatting, ensuring compliance and migration security."},
+    {d:"Mar. 2023 – Avr. 2025", d_en:"Mar. 2023 – Apr. 2025", p:"Chef de Projet Décisionnel", p_en:"Decisional Project Manager", co:"ANR (Agence Nationale de la Recherche), Paris", desc:"Responsable de la gestion et du développement des processus ETL en environnement SAP BusinessObjects et PL/SQL. Réalisation de flux ETL natifs, collaboration avec l'équipe métier pour l'analyse des besoins, suivi JIRA et coordination inter-équipes techniques et métier.", desc_en:"Responsible for management and development of ETL processes in SAP BusinessObjects and PL/SQL environment. Native ETL flow realization, collaboration with business team for needs analysis, JIRA tracking and inter-team coordination."},
+    {d:"Mar. 2022 – Avr. 2025", d_en:"Mar. 2022 – Apr. 2025", p:"Analyste de Données (CDI)", p_en:"Data Analyst (Full-time)", co:"Inetum (ESN), Lille", desc:"Consultant data mobilisé sur des missions à forte valeur ajoutée pour clients grands comptes. Participation à la conception et déploiement de pipelines ETL/ELT robustes, développement de procédures SQL/PL-SQL (Oracle, SQL Server), création de dashboards Power BI et Qlik Sense, intégration multi-systèmes (ERP, bases Oracle, outils BI), automatisation en Python.", desc_en:"Data consultant mobilized on high-value missions for major account clients. Participation in design and deployment of robust ETL/ELT pipelines, development of SQL/PL-SQL procedures (Oracle, SQL Server), creation of Power BI and Qlik Sense dashboards, multi-system integration (ERP, Oracle databases, BI tools), Python automation."},
+    {d:"Mar. 2022 – Fév. 2023", d_en:"Mar. 2022 – Feb. 2023", p:"Data Analyst (CDI)", p_en:"Data Analyst (Full-time)", co:"BNP Paribas Cardif, Lille", desc:"Contribution à la modernisation des systèmes de traitement de données d'assurance. Conception et optimisation de workflows ETL avec Informatica, développement de procédures stockées PL/SQL, création de tableaux de bord Qlik Sense, refonte des pipelines pour réduire les temps de traitement et améliorer la fiabilité.", desc_en:"Contribution to modernization of insurance data processing systems. Design and optimization of ETL workflows with Informatica, development of PL/SQL stored procedures, creation of Qlik Sense dashboards, pipeline redesign to reduce processing times and improve reliability."},
+    {d:"Juin 2021 – Déc. 2021", d_en:"June 2021 – Dec. 2021", p:"Data Scientist (Stage)", p_en:"Data Scientist (Internship)", co:"IMT Lille Douai", desc:"Traitement et intégration de données historiques 60+ ans. Nettoyage et transformation avec Python (Pandas, NumPy), intégration SQL Server avec SSIS, création de rapports Power BI pour l'exploration et l'analyse par les équipes métiers.", desc_en:"Processing and integration of 60+ years of historical data. Cleaning and transformation with Python (Pandas, NumPy), SQL Server integration with SSIS, creation of Power BI reports for exploration and analysis by business teams."},
+    {d:"Fév. 2020 – Juil. 2020", d_en:"Feb. 2020 – July 2020", p:"Consultant BI (Stage)", p_en:"BI Consultant (Internship)", co:"ACAPS (Autorité Régulation Assurances), Rabat", desc:"Conception d'un outil applicatif de gestion du parc informatique décisionnel. Analyse des besoins, modélisation des données, développement en Python avec interface SQL Server, création de tableaux de bord de suivi. Projet de fin d'études.", desc_en:"Design of application tool for managing decisional IT infrastructure. Needs analysis, data modeling, Python development with SQL Server interface, creation of tracking dashboards. Graduation project."},
+    {d:"Fév. 2019 – Mar. 2019", d_en:"Feb. 2019 – Mar. 2019", p:"Développeur Web (Freelance)", p_en:"Web Developer (Freelance)", co:"LMR, Lille", desc:"Développement d'une application e-commerce WordPress. Personnalisation du thème en PHP, HTML, CSS, JavaScript, intégration de plugins de paiement, optimisation UX et responsive design.", desc_en:"Development of WordPress e-commerce application. Theme customization in PHP, HTML, CSS, JavaScript, payment plugin integration, UX optimization and responsive design."},
+    {d:"Fév. 2018 – Juin 2018", d_en:"Feb. 2018 – June 2018", p:"Développeur Applications (Stage)", p_en:"Application Developer (Internship)", co:"OLIOC, Rabat", desc:"Développement d'une application web de gestion d'entreprise avec WordPress. Conception du front-end et back-end (PHP, HTML5, CSS3, JavaScript), mise en place de modules pour gestion des clients, produits, ventes et rapports.", desc_en:"Development of WordPress business management web application. Front-end and back-end design (PHP, HTML5, CSS3, JavaScript), implementation of modules for customer, product, sales and report management."},
+    {d:"Fév. 2017 – Mai 2017", d_en:"Feb. 2017 – May 2017", p:"Technicien Sécurité (Stage)", p_en:"Security Technician (Internship)", co:"DGAPR (Délégation Générale Administration Pénitentiaire), Rabat", desc:"Surveillance et administration d'un parc informatique critiques. Mise en place et gestion de l'outil de supervision Shinken, administration Debian 8, suivi des alertes et rapports de performance.", desc_en:"Monitoring and administration of critical IT infrastructure. Implementation and management of Shinken monitoring tool, Debian 8 administration, alert tracking and performance reporting."},
   ],
   edus:[
-    {d:"2020 – 2021",di:"Master 2 en Sciences Informatiques",       et:"Université d'Artois"},
-    {d:"2017 – 2019",di:"Cycle Ingénieur — Business Intelligence",  et:"ISMAGI Rabat"},
-    {d:"2015 – 2017",di:"DUT — Réseaux & Sécurité Informatique",   et:"ISTA NTIC"},
+    {d:"2020 – 2021", d_en:"2020 – 2021", di:"Master 2 en Sciences Informatiques — Intelligence Artificielle", di_en:"Master 2 in Computer Science — Artificial Intelligence", et:"Université d'Artois, Lens"},
+    {d:"2017 – 2019", d_en:"2017 – 2019", di:"Cycle Ingénieur en Génie Informatique — Business Intelligence (Bac+5)", di_en:"Engineering Degree in Computer Science — Business Intelligence (Bac+5)", et:"ISMAGI Rabat"},
+    {d:"2015 – 2017", d_en:"2015 – 2017", di:"DUT Techniques Des Réseaux &amp; Sécurité Informatique", di_en:"DUT in Network Techniques &amp; IT Security", et:"ISTA NTIC"},
   ],
   services:[
-    {i:"🔗",t:"Collecte & intégration",  d:"Collecte multi-sources, transformation et intégration dans un système centralisé pour assurer cohérence et disponibilité."},
-    {i:"📊",t:"Analyse & BI",            d:"Analyse statistique, modélisation, tableaux de bord Power BI / Tableau pour transformer les données en insights exploitables."},
-    {i:"⚙️",t:"ETL & anomalies",         d:"Identification et résolution des problèmes ETL. Gestion et suivi de tickets JIRA jusqu'à clôture."},
-    {i:"☁️",t:"Déploiement Cloud",       d:"Migration et déploiement sur Azure et GCP. Configuration de pipelines Synapse Cloud et gestion des accès."},
-    {i:"🗃️",t:"Manipulation des données",d:"Gestion, transformation et intégration via PL/SQL, Python et SQO dans divers systèmes métiers."},
-    {i:"📝",t:"Documentation technique", d:"Rédaction de spécifications, guides d'utilisation et procédures pour les équipes techniques et clients."},
+    {i:"🔗",t:"Collecte &amp; Intégration de Données", t_en:"Data Collection &amp; Integration", d:"Recherche, collecte et intégration de données hétérogènes provenant de sources multiples (APIs, bases de données, fichiers) dans un système centralisé et cohérent. Nettoyage et transformation pour assurer la qualité et la disponibilité.", d_en:"Search, collection and integration of heterogeneous data from multiple sources (APIs, databases, files) into a centralized and coherent system. Cleaning and transformation to ensure quality and availability."},
+    {i:"📊",t:"Analyse &amp; Business Intelligence", t_en:"Analysis &amp; Business Intelligence", d:"Analyse statistique approfondie, modélisation de données, création de dashboards décisionnels interactifs avec Power BI, Qlik Sense et Tableau. Transformation des données brutes en insights clairs pour guider les décisions stratégiques.", d_en:"In-depth statistical analysis, data modeling, creation of interactive decisional dashboards with Power BI, Qlik Sense and Tableau. Transformation of raw data into clear insights to guide strategic decisions."},
+    {i:"⚙️",t:"Pipeline ETL/ELT &amp; Optimisation", t_en:"ETL/ELT Pipeline &amp; Optimization", d:"Conception et déploiement de pipelines robustes et scalables avec Informatica, Talend et SSIS. Identification et résolution des anomalies ETL, optimisation des performances, gestion complète des tickets JIRA.", d_en:"Design and deployment of robust and scalable pipelines with Informatica, Talend and SSIS. Identification and resolution of ETL anomalies, performance optimization, complete JIRA ticket management."},
+    {i:"☁️",t:"Déploiement Cloud &amp; Migration", t_en:"Cloud Deployment &amp; Migration", d:"Migration de données et déploiement sur Azure, AWS et Google Cloud. Configuration de pipelines Synapse Cloud, Snowflake et Redshift. Gestion des accès, sécurité et conformité réglementaire.", d_en:"Data migration and deployment on Azure, AWS and Google Cloud. Configuration of Synapse Cloud, Snowflake and Redshift pipelines. Access management, security and regulatory compliance."},
+    {i:"🗃️",t:"Manipulation &amp; Automatisation des Données", t_en:"Data Manipulation &amp; Automation", d:"Gestion complète, transformation et intégration via PL/SQL, Python, Java et JavaScript dans divers systèmes métiers. Développement de scripts d'automatisation pour réduire les tâches manuelles et améliorer la fiabilité.", d_en:"Complete management, transformation and integration via PL/SQL, Python, Java and JavaScript in various business systems. Development of automation scripts to reduce manual tasks and improve reliability."},
+    {i:"📝",t:"Documentation Technique &amp; Support", t_en:"Technical Documentation &amp; Support", d:"Rédaction de spécifications fonctionnelles détaillées, guides d'utilisation, procédures techniques et documentation d'architecture. Formation des équipes et support continu pour assurer la maintenabilité et l'évolutivité des solutions.", d_en:"Writing detailed functional specifications, user guides, technical procedures and architecture documentation. Team training and ongoing support to ensure maintainability and scalability of solutions."},
   ],
   projets:[
-    {t:"ACAPS",                     tags:["BI","Développement"],      img:"https://hnizar.github.io/portfolio/img/work-2.jpg",lien:"#"},
-    {t:"SIG 4 DEV",                 tags:["Développement"],           img:"https://hnizar.github.io/portfolio/img/work-1.jpg",lien:"#"},
-    {t:"Analyse de données marché", tags:["BI"],                     img:"https://hnizar.github.io/portfolio/img/work-3.jpg",lien:"#"},
-    {t:"Tableau de bord digital",   tags:["Gestion","Développement"],img:"https://hnizar.github.io/portfolio/img/work-4.jpg",lien:"#"},
-    {t:"Présentation Mockup",       tags:["Développement"],           img:"https://hnizar.github.io/portfolio/img/work-5.jpg",lien:"#"},
+    {t:"ACAPS — Plateforme BI Assurances", t_en:"ACAPS — Insurance BI Platform", tags:["BI","Développement"], tags_en:["BI","Development"], img:"https://hnizar.github.io/portfolio/img/work-2.jpg",lien:"#"},
+    {t:"SIG 4 DEV — Système d'Information Géographique", t_en:"SIG 4 DEV — Geographic Information System", tags:["Développement"], tags_en:["Development"], img:"https://hnizar.github.io/portfolio/img/work-1.jpg",lien:"#"},
+    {t:"Analyse de Données Marché & Tendances", t_en:"Market Data & Trends Analysis", tags:["BI"], tags_en:["BI"], img:"https://hnizar.github.io/portfolio/img/work-3.jpg",lien:"#"},
+    {t:"Tableau de Bord Digital — Dashboard Interactif", t_en:"Digital Dashboard — Interactive Dashboard", tags:["Gestion","Développement"], tags_en:["Management","Development"], img:"https://hnizar.github.io/portfolio/img/work-4.jpg",lien:"#"},
+    {t:"Prototype & Mockup — Conception UX/UI", t_en:"Prototype & Mockup — UX/UI Design", tags:["Développement"], tags_en:["Development"], img:"https://hnizar.github.io/portfolio/img/work-5.jpg",lien:"#"},
   ],
   certs:[
-    {n:"Scrum Foundation Professional Certificate",      a:"2020",i:"🎯"},
-    {n:"Microsoft Certified — Programming Python",       a:"2020",i:"🐍"},
-    {n:"Microsoft Certified — Programming Java",         a:"2021",i:"☕"},
-    {n:"Microsoft Certified — Database Administration",  a:"2017",i:"🗄️"},
-    {n:"Microsoft Certified — Windows Server",           a:"2021",i:"🖥️"},
+    {n:"Scrum Foundation Professional Certificate", n_en:"Scrum Foundation Professional Certificate", a:"2020",i:"🎯"},
+    {n:"Microsoft Certified — Programming Using Python", n_en:"Microsoft Certified — Programming Using Python", a:"2020",i:"🐍"},
+    {n:"Microsoft Certified — Programming Using Java", n_en:"Microsoft Certified — Programming Using Java", a:"2020",i:"☕"},
+    {n:"Microsoft Certified — Database Administration", n_en:"Microsoft Certified — Database Administration", a:"2019",i:"🗄️"},
+    {n:"Microsoft Certified — Installing Windows Server", n_en:"Microsoft Certified — Installing Windows Server", a:"2017",i:"🖥️"},
+    {n:"CCNA Routing &amp; Switching (Cisco Academy)", n_en:"CCNA Routing &amp; Switching (Cisco Academy)", a:"2017",i:"🌐"},
+    {n:"LinkedIn Learning — Data Analysis", n_en:"LinkedIn Learning — Data Analysis", a:"2024",i:"📊"},
+    {n:"LinkedIn Learning — Power BI: From Dashboard to App", n_en:"LinkedIn Learning — Power BI: From Dashboard to App", a:"2024",i:"💡"},
   ],
-  ctH:"Parlons de votre projet",
-  ctS:"Disponible pour des CDI, missions freelance ou simplement pour échanger sur des sujets data.",
+  ctH:"Commençons un projet ensemble",
+  ctH_en:"Let's start a project together",
+  ctS:"Disponible pour des CDI, missions freelance, projets intéressants ou simplement pour discuter de sujets data, BI et cloud computing. Réponse garantie sous 24h.",
+  ctS_en:"Available for full-time positions, freelance missions, interesting projects or simply to discuss data, BI and cloud computing topics. Response guaranteed within 24 hours.",
   ctL:[
-    {i:"📞",l:"Téléphone",v:"+33 753 314 191",        h:"tel:+33753314191"},
-    {i:"✉️",l:"Email",    v:"Nizar.hattad@outlook.fr", h:"mailto:Nizar.hattad@outlook.fr"},
-    {i:"📍",l:"Adresse",  v:"Lille, France",           h:"#"},
+    {i:"📞",l:"Téléphone", l_en:"Phone", v:"+33 753 314 191", h:"tel:+33753314191"},
+    {i:"✉️",l:"Email", l_en:"Email", v:"nizarhattad.pro@outlook.fr", h:"mailto:nizarhattad.pro@outlook.fr"},
+    {i:"📍",l:"Adresse", l_en:"Location", v:"Lille, France (Hybride)", h:"#"},
   ],
-  ctSuj:["Entretien pour un CDI","Projet en freelance","Échange technique","Autre"],
+  ctSuj:["Entretien pour un CDI","Projet en freelance","Question technique","Collaboration","Autre"],
+  ctSuj_en:["Full-time Interview","Freelance Project","Technical Question","Collaboration","Other"],
   social:[
-    {l:"LinkedIn",h:"https://linkedin.com/in/nizar-hattad"},
+    {l:"LinkedIn",h:"https://linkedin.com/in/hattad-nizar-73292a18a/"},
     {l:"GitHub",  h:"https://github.com/hnizar"},
   ],
 };
 
 (function(){
-  // nav
+  let lang='fr';
+  let theme='dark';
+
+  const savedLang=localStorage.getItem('portfolio-lang')||'fr';
+  const savedTheme=localStorage.getItem('portfolio-theme')||'dark';
+  lang=savedLang;
+  theme=savedTheme;
+
+  if(theme==='light'){document.body.classList.add('light-mode');}
+
+  document.getElementById('themeToggle').addEventListener('click',()=>{
+    theme=theme==='dark'?'light':'dark';
+    localStorage.setItem('portfolio-theme',theme);
+    if(theme==='light'){
+      document.body.classList.add('light-mode');
+      document.getElementById('themeToggle').textContent='☀️';
+    }else{
+      document.body.classList.remove('light-mode');
+      document.getElementById('themeToggle').textContent='🌙';
+    }
+  });
+
+  document.getElementById('langToggle').addEventListener('click',()=>{
+    lang=lang==='fr'?'en':'fr';
+    localStorage.setItem('portfolio-lang',lang);
+    document.getElementById('langToggle').textContent=lang==='fr'?'🇫🇷':'🇬🇧';
+    location.reload();
+  });
+
+  function txt(fr,en){return lang==='en'?en:fr;}
+
   const nl=document.getElementById('nl');
-  C.nav.forEach(x=>nl.innerHTML+=`<li><a href="${x.h}">${x.l}</a></li>`);
+  C.nav.forEach(x=>nl.innerHTML+=`<li><a href="${x.h}">${txt(x.l,x.l_en)}</a></li>`);
   document.getElementById('ncv').href=C.cv;
 
-  // hero
-  document.getElementById('hs').textContent=C.statut;
+  document.getElementById('hs').textContent=txt(C.statut,C.statut_en);
   document.getElementById('hp').textContent=C.prenom+' ';
   document.getElementById('hn').textContent=C.nom;
-  document.getElementById('ht').innerHTML=C.titre;
-  document.getElementById('hd').textContent=C.desc;
+  document.getElementById('ht').innerHTML=txt(C.titre,C.titre_en);
+  document.getElementById('hd').textContent=txt(C.desc,C.desc_en);
   document.getElementById('hcv').href=C.cv;
+  
   const hst=document.getElementById('hst');
-  C.stats.forEach(s=>hst.innerHTML+=`<div><div class="hstat-num">${s.n}</div><div class="hstat-lbl">${s.l}</div></div>`);
+  C.stats.forEach(s=>hst.innerHTML+=`<div><div class="hstat-num">${s.n}</div><div class="hstat-lbl">${txt(s.l,s.l_en)}</div></div>`);
+  
   const hpl=document.getElementById('hpl');
-  C.pills.forEach(p=>hpl.innerHTML+=`<div class="pill"><div class="pill-ico">${p.i}</div><div><div class="pill-t">${p.t}</div><div class="pill-s">${p.s}</div></div></div>`);
+  C.pills.forEach(p=>hpl.innerHTML+=`<div class="pill"><div class="pill-ico">${p.i}</div><div><div class="pill-t">${p.t}</div><div class="pill-s">${txt(p.s,p.s_en)}</div></div></div>`);
 
-  // about
   document.getElementById('pcn').textContent=C.prenom+' '+C.nom;
-  document.getElementById('pct').textContent=C.titre;
+  document.getElementById('pct').textContent=txt(C.titre,C.titre_en);
+  
   const pci=document.getElementById('pci');
-  C.infos.forEach(x=>pci.innerHTML+=`<li><span class="pil">${x.l}</span><span class="piv">${x.v}</span></li>`);
+  C.infos.forEach(x=>pci.innerHTML+=`<li><span class="pil">${txt(x.l,x.l_en)}</span><span class="piv">${x.v}</span></li>`);
+  
   const pctg=document.getElementById('pctg');
   C.tagsCard.forEach(t=>pctg.innerHTML+=`<span class="pc-tag">${t}</span>`);
-  document.getElementById('ab').innerHTML=C.bio;
+  
+  document.getElementById('ab').innerHTML=txt(C.bio,C.bio_en);
+  
   const asg=document.getElementById('asg');
   C.skills.forEach(s=>asg.innerHTML+=`<span class="sk">${s}</span>`);
 
-  // exp
   const etl=document.getElementById('etl');
-  C.exps.forEach(e=>etl.innerHTML+=`<div class="tli"><div class="tl-date">${e.d}</div><div class="tl-body"><h3>${e.p}</h3><div class="tl-co">${e.co}</div><p class="tl-desc">${e.desc}</p></div></div>`);
+  C.exps.forEach(e=>etl.innerHTML+=`<div class="tli"><div class="tl-date">${txt(e.d,e.d_en)}</div><div class="tl-body"><h3>${txt(e.p,e.p_en)}</h3><div class="tl-co">${e.co}</div><p class="tl-desc">${txt(e.desc,e.desc_en)}</p></div></div>`);
 
-  // edu
   const edtl=document.getElementById('edtl');
-  C.edus.forEach(e=>edtl.innerHTML+=`<div class="tli"><div class="tl-date">${e.d}</div><div class="tl-body"><h3>${e.di}</h3><div class="tl-co">${e.et}</div></div></div>`);
+  C.edus.forEach(e=>edtl.innerHTML+=`<div class="tli"><div class="tl-date">${txt(e.d,e.d_en)}</div><div class="tl-body"><h3>${txt(e.di,e.di_en)}</h3><div class="tl-co">${e.et}</div></div></div>`);
 
-  // services
   const sg=document.getElementById('sg');
-  C.services.forEach(s=>sg.innerHTML+=`<div class="srv"><div class="srv-ico">${s.i}</div><h3>${s.t}</h3><p>${s.d}</p></div>`);
+  C.services.forEach(s=>sg.innerHTML+=`<div class="srv"><div class="srv-ico">${s.i}</div><h3>${txt(s.t,s.t_en)}</h3><p>${txt(s.d,s.d_en)}</p></div>`);
 
-  // projects
   const allTags=['Tous',...new Set(C.projets.flatMap(p=>p.tags))];
+  const allTagsEn=['All',...new Set(C.projets.flatMap(p=>p.tags_en||p.tags))];
   let act='Tous';
   const frEl=document.getElementById('fr');
-  allTags.forEach(tag=>{
+  allTags.forEach((tag,idx)=>{
     const b=document.createElement('button');
     b.className='fbtn'+(tag==='Tous'?' on':'');
-    b.textContent=tag;
+    b.textContent=lang==='en'?allTagsEn[idx]:tag;
     b.onclick=()=>{act=tag;document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');filt();};
     frEl.appendChild(b);
   });
+  
   const pgEl=document.getElementById('pg');
   C.projets.forEach(p=>{
     const d=document.createElement('div');
-    d.className='pc on'; d.dataset.tags=JSON.stringify(p.tags);
-    d.innerHTML=`<div class="pi-wrap"><img src="${p.img}" alt="${p.t}" loading="lazy" onerror="this.parentElement.style.background='#12122a'"/><div class="pi-ov"></div></div><div class="pb"><div class="ptags">${p.tags.map(t=>`<span class="ptag">${t}</span>`).join('')}</div><h3>${p.t}</h3></div>`;
+    d.className='pc on';
+    const tagsToUse=lang==='en'?(p.tags_en||p.tags):p.tags;
+    d.dataset.tags=JSON.stringify(tagsToUse);
+    d.innerHTML=`<div class="pi-wrap"><img src="${p.img}" alt="${txt(p.t,p.t_en)}" loading="lazy" onerror="this.parentElement.style.background='#12122a'"/><div class="pi-ov"></div></div><div class="pb"><div class="ptags">${tagsToUse.map(t=>`<span class="ptag">${t}</span>`).join('')}</div><h3>${txt(p.t,p.t_en)}</h3></div>`;
     pgEl.appendChild(d);
   });
-  function filt(){document.querySelectorAll('.pc').forEach(c=>{const t=JSON.parse(c.dataset.tags);c.classList.toggle('on',act==='Tous'||t.includes(act));});}
+  
+  function filt(){document.querySelectorAll('.pc').forEach(c=>{const t=JSON.parse(c.dataset.tags);c.classList.toggle('on',act==='Tous'||act==='All'||t.includes(act));});}
 
-  // certs
   const cgEl=document.getElementById('cg');
-  C.certs.forEach(c=>cgEl.innerHTML+=`<div class="cc"><div class="cc-ico">${c.i}</div><div><div class="cc-name">${c.n}</div><div class="cc-yr">${c.a}</div></div></div>`);
+  C.certs.forEach(c=>cgEl.innerHTML+=`<div class="cc"><div class="cc-ico">${c.i}</div><div><div class="cc-name">${txt(c.n,c.n_en)}</div><div class="cc-yr">${c.a}</div></div></div>`);
 
-  // contact
-  document.getElementById('cth').textContent=C.ctH;
-  document.getElementById('cts').textContent=C.ctS;
+  document.getElementById('cth').textContent=txt(C.ctH,C.ctH_en);
+  document.getElementById('cts').textContent=txt(C.ctS,C.ctS_en);
+  
   const ctlEl=document.getElementById('ctl');
-  C.ctL.forEach(x=>ctlEl.innerHTML+=`<a class="clink" href="${x.h}"><div class="cl-ico">${x.i}</div><div><div class="cl-l">${x.l}</div><div class="cl-v">${x.v}</div></div></a>`);
-  const sel=document.getElementById('ctsel');
-  C.ctSuj.forEach(s=>sel.innerHTML+=`<option value="${s}">${s}</option>`);
+  C.ctL.forEach(x=>ctlEl.innerHTML+=`<a class="clink" href="${x.h}"><div class="cl-ico">${x.i}</div><div><div class="cl-l">${txt(x.l,x.l_en)}</div><div class="cl-v">${x.v}</div></div></a>`);
 
-  // footer
+  const sel=document.querySelector('select[name="subject"]');
+  sel.innerHTML=`<option value="" disabled selected>${txt('Objet du message','Message subject')}</option>`;
+  (lang==='en'?C.ctSuj_en:C.ctSuj).forEach(s=>sel.innerHTML+=`<option value="${s}">${s}</option>`);
+
   document.getElementById('ftc').textContent=`© ${new Date().getFullYear()} HATTAD Nizar — Tous droits réservés`;
   const fts=document.getElementById('fts');
   C.social.forEach(s=>fts.innerHTML+=`<a href="${s.h}" target="_blank">${s.l}</a>`);
 
-  // nav scroll
+  document.getElementById('themeToggle').textContent=theme==='light'?'☀️':'🌙';
+  document.getElementById('langToggle').textContent=lang==='en'? EN':'🇫🇷';
+
   window.addEventListener('scroll',()=>{
-    document.getElementById('nav').style.background=window.scrollY>60?'rgba(6,6,14,.95)':'rgba(6,6,14,.7)';
+    document.getElementById('nav').style.background=window.scrollY>60?(theme==='light'?'rgba(245,245,247,.95)':'rgba(6,6,14,.95)'):(theme==='light'?'rgba(245,245,247,.7)':'rgba(6,6,14,.7)');
   });
 })();
+
 </script>
 </body>
 </html>
