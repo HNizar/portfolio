@@ -35,17 +35,16 @@ body.light-mode {
   --muted:   #666666;
   --muted2:  #333333;
 }
+
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;transition:background .3s,color .3s}
 
-/* blobs */
 .blob{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
 .b1{width:600px;height:600px;background:rgba(102,126,234,0.16);top:-200px;left:-200px}
 .b2{width:500px;height:500px;background:rgba(240,147,251,0.10);top:40%;right:-150px}
 .b3{width:400px;height:400px;background:rgba(67,233,123,0.07);bottom:-100px;left:30%}
 
-/* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:rgba(6,6,14,0.7);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);transition:background .3s}
 body.light-mode nav{background:rgba(245,245,247,0.7)}
 .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--text)}
@@ -60,14 +59,12 @@ body.light-mode nav{background:rgba(245,245,247,0.7)}
 .nav-cta{font-size:.85rem;font-weight:600;padding:.55rem 1.3rem;border-radius:50px;background:var(--g1);color:#fff;text-decoration:none;box-shadow:0 4px 24px rgba(102,126,234,.35);transition:opacity .2s,transform .15s}
 .nav-cta:hover{opacity:.88;transform:translateY(-1px)}
 
-/* layout */
 .wrap{max-width:1120px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
 section{padding:7rem 0 3rem}
 .s-lbl{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.8rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
 h2.s-t{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:700;letter-spacing:-.03em;margin-bottom:3.5rem;color:var(--text)}
 h2.s-t em{font-style:normal;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-/* hero */
 #hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem}
 .hero-inner{display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;width:100%}
 .hero-badge{display:inline-flex;align-items:center;gap:.6rem;background:rgba(102,126,234,.12);border:1px solid rgba(102,126,234,.3);padding:.4rem 1rem .4rem .6rem;border-radius:50px;margin-bottom:2rem;width:fit-content}
@@ -93,7 +90,6 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .pill-t{font-size:.82rem;font-weight:600;color:var(--text)}
 .pill-s{font-size:.72rem;color:var(--muted)}
 
-/* about */
 #about .ag{display:grid;grid-template-columns:320px 1fr;gap:4rem;align-items:start}
 .pro-card{background:var(--card);border-radius:20px;border:1px solid var(--border2);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);position:sticky;top:6rem}
 .pc-banner{height:90px;background:var(--g1);position:relative}
@@ -118,7 +114,6 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .sk{font-size:.8rem;font-weight:500;padding:.38rem .9rem;border-radius:50px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--text);transition:all .2s;cursor:default}
 .sk:hover{border-color:rgba(102,126,234,.6);background:rgba(102,126,234,.1);color:#a78bfa;transform:translateY(-1px)}
 
-/* timeline */
 .tl{display:flex;flex-direction:column;position:relative}
 .tl::before{content:'';position:absolute;left:179px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(102,126,234,.4) 20%,rgba(102,126,234,.4) 80%,transparent)}
 .tli{display:grid;grid-template-columns:160px 1fr;gap:3rem;padding:2.2rem 0;border-bottom:1px solid var(--border);position:relative}
@@ -129,7 +124,6 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .tl-co{font-size:.82rem;font-weight:600;margin-bottom:.6rem;background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .tl-desc{color:var(--muted);font-size:.88rem;line-height:1.75}
 
-/* services */
 .srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:1.5rem}
 .srv{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s}
 .srv::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
@@ -148,7 +142,6 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .srv h3{font-family:'Space Grotesk',sans-serif;font-size:.98rem;font-weight:600;margin-bottom:.7rem}
 .srv p{color:var(--muted);font-size:.86rem;line-height:1.75}
 
-/* projects */
 .frow{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
 .fbtn{font-size:.82rem;font-weight:600;padding:.45rem 1.1rem;border-radius:50px;border:1px solid var(--border2);color:var(--muted2);background:transparent;cursor:pointer;transition:all .2s}
 .fbtn:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
@@ -166,7 +159,6 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .ptag{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .6rem;border-radius:4px;background:rgba(102,126,234,.15);color:#a78bfa}
 .pb h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600}
 
-/* certs */
 .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
 .cc{display:flex;gap:1rem;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem;transition:border-color .2s,transform .2s}
 .cc:hover{border-color:var(--border2);transform:translateY(-2px)}
@@ -174,7 +166,6 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .cc-name{font-size:.88rem;font-weight:500;margin-bottom:.15rem}
 .cc-yr{font-size:.75rem;font-weight:600;background:var(--g3);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-/* contact */
 #contact .cw{display:grid;grid-template-columns:1fr 1.1fr;gap:4rem;align-items:start}
 .cl h3{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:.8rem;letter-spacing:-.02em}
 .cl p{color:var(--muted2);font-size:.93rem;margin-bottom:2rem;line-height:1.8}
@@ -191,17 +182,16 @@ h1.hero-name .grad{background:linear-gradient(135deg,#a78bfa 0%,#60a5fa 40%,#34d
 .cform input:focus,.cform select:focus,.cform textarea:focus{border-color:rgba(102,126,234,.6);box-shadow:0 0 0 3px rgba(102,126,234,.1)}
 .cform input::placeholder,.cform textarea::placeholder{color:var(--muted)}
 .cform select option{background:#12122a}
+body.light-mode .cform select option{background:#ffffff}
 .cform textarea{resize:vertical;min-height:120px}
 .cf-btn{background:var(--g1);color:#fff;border:none;padding:1rem;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;box-shadow:0 8px 28px rgba(102,126,234,.4);transition:transform .15s,box-shadow .2s}
 .cf-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(102,126,234,.55)}
 
-/* footer */
 footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;color:var(--muted);font-size:.82rem}
 .fsoc{display:flex;gap:1rem}
 .fsoc a{color:var(--muted);text-decoration:none;font-weight:500;transition:color .2s}
 .fsoc a:hover{color:var(--text)}
 
-/* responsive */
 @media(max-width:900px){
   nav{padding:1rem 1.5rem}
   .nav-links{display:none}
@@ -274,7 +264,7 @@ footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify
       <div>
         <p class="about-bio" id="ab"></p>
         <div class="skills-wrap">
-          <h4>Compétences techniques</h4>
+          <h4 id="sk-title">Compétences techniques</h4>
           <div class="skills-grid" id="asg"></div>
         </div>
       </div>
@@ -349,9 +339,6 @@ footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;justify
   <div class="fsoc" id="fts"></div>
 </footer>
 
-<!-- ╔══════════════════════════════════════╗
-     ║  CONFIG — modifier uniquement ici   ║
-     ╚══════════════════════════════════════╝ -->
 <script>
 const C = {
   prenom:"HATTAD", nom:"Nizar",
@@ -447,8 +434,6 @@ const C = {
     {i:"✉️",l:"Email", l_en:"Email", v:"nizarhattad.pro@outlook.fr", h:"mailto:nizarhattad.pro@outlook.fr"},
     {i:"📍",l:"Adresse", l_en:"Location", v:"Lille, France (Hybride)", h:"#"},
   ],
-  ctSuj:["Entretien pour un CDI","Projet en freelance","Question technique","Collaboration","Autre"],
-  ctSuj_en:["Full-time Interview","Freelance Project","Technical Question","Collaboration","Other"],
   social:[
     {l:"LinkedIn",h:"https://linkedin.com/in/hattad-nizar-73292a18a/"},
     {l:"GitHub",  h:"https://github.com/hnizar"},
@@ -514,6 +499,7 @@ const C = {
   C.tagsCard.forEach(t=>pctg.innerHTML+=`<span class="pc-tag">${t}</span>`);
   
   document.getElementById('ab').innerHTML=txt(C.bio,C.bio_en);
+  document.getElementById('sk-title').textContent=lang==='en'?'Technical Skills':'Compétences techniques';
   
   const asg=document.getElementById('asg');
   C.skills.forEach(s=>asg.innerHTML+=`<span class="sk">${s}</span>`);
@@ -560,22 +546,17 @@ const C = {
   const ctlEl=document.getElementById('ctl');
   C.ctL.forEach(x=>ctlEl.innerHTML+=`<a class="clink" href="${x.h}"><div class="cl-ico">${x.i}</div><div><div class="cl-l">${txt(x.l,x.l_en)}</div><div class="cl-v">${x.v}</div></div></a>`);
 
-  const sel=document.querySelector('select[name="subject"]');
-  sel.innerHTML=`<option value="" disabled selected>${txt('Objet du message','Message subject')}</option>`;
-  (lang==='en'?C.ctSuj_en:C.ctSuj).forEach(s=>sel.innerHTML+=`<option value="${s}">${s}</option>`);
-
   document.getElementById('ftc').textContent=`© ${new Date().getFullYear()} HATTAD Nizar — Tous droits réservés`;
   const fts=document.getElementById('fts');
   C.social.forEach(s=>fts.innerHTML+=`<a href="${s.h}" target="_blank">${s.l}</a>`);
 
   document.getElementById('themeToggle').textContent=theme==='light'?'☀️':'🌙';
-  document.getElementById('langToggle').textContent=lang==='en'? EN':'🇫🇷';
+  document.getElementById('langToggle').textContent=lang==='en'?'🇬🇧':'🇫🇷';
 
   window.addEventListener('scroll',()=>{
     document.getElementById('nav').style.background=window.scrollY>60?(theme==='light'?'rgba(245,245,247,.95)':'rgba(6,6,14,.95)'):(theme==='light'?'rgba(245,245,247,.7)':'rgba(6,6,14,.7)');
   });
 })();
-
 </script>
 </body>
 </html>
