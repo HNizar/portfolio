@@ -475,8 +475,95 @@ const C = {
     lang=lang==='fr'?'en':'fr';
     localStorage.setItem('portfolio-lang',lang);
     document.getElementById('langToggle').textContent=lang==='fr'?'🇫🇷':'🇬🇧';
-    location.reload();
+    updateAllText();
   });
+
+  function updateAllText(){
+    function txt(fr,en){return lang==='en'?en:fr;}
+    
+    // Update nav
+    document.querySelectorAll('.nav-links li a').forEach((link,idx)=>{
+      if(C.nav[idx]) link.textContent=txt(C.nav[idx].l,C.nav[idx].l_en);
+    });
+    
+    // Hero
+    document.getElementById('hs').textContent=txt(C.statut,C.statut_en);
+    document.getElementById('ht').innerHTML=txt(C.titre,C.titre_en);
+    document.getElementById('hd').textContent=txt(C.desc,C.desc_en);
+    
+    // Stats
+    document.querySelectorAll('.hstat-lbl').forEach((el,idx)=>{
+      if(C.stats[idx]) el.textContent=txt(C.stats[idx].l,C.stats[idx].l_en);
+    });
+    
+    // Pills
+    document.querySelectorAll('.pill-s').forEach((el,idx)=>{
+      if(C.pills[idx]) el.textContent=txt(C.pills[idx].s,C.pills[idx].s_en);
+    });
+    
+    // About
+    document.getElementById('pct').textContent=txt(C.titre,C.titre_en);
+    document.querySelectorAll('.pc-info li .pil').forEach((el,idx)=>{
+      if(C.infos[idx]) el.textContent=txt(C.infos[idx].l,C.infos[idx].l_en);
+    });
+    document.getElementById('ab').innerHTML=txt(C.bio,C.bio_en);
+    document.getElementById('sk-title').textContent=lang==='en'?'Technical Skills':'Compétences techniques';
+    
+    // Experiences
+    document.querySelectorAll('#etl .tli').forEach((li,idx)=>{
+      if(C.exps[idx]){
+        li.querySelector('.tl-date').textContent=txt(C.exps[idx].d,C.exps[idx].d_en);
+        li.querySelector('h3').textContent=txt(C.exps[idx].p,C.exps[idx].p_en);
+        li.querySelector('.tl-desc').textContent=txt(C.exps[idx].desc,C.exps[idx].desc_en);
+      }
+    });
+    
+    // Education
+    document.querySelectorAll('#edtl .tli').forEach((li,idx)=>{
+      if(C.edus[idx]){
+        li.querySelector('.tl-date').textContent=txt(C.edus[idx].d,C.edus[idx].d_en);
+        li.querySelector('h3').textContent=txt(C.edus[idx].di,C.edus[idx].di_en);
+      }
+    });
+    
+    // Services
+    document.querySelectorAll('.srv').forEach((srv,idx)=>{
+      if(C.services[idx]){
+        srv.querySelector('h3').textContent=txt(C.services[idx].t,C.services[idx].t_en);
+        srv.querySelector('p').textContent=txt(C.services[idx].d,C.services[idx].d_en);
+      }
+    });
+    
+    // Projects filter buttons
+    const allTags=['Tous',...new Set(C.projets.flatMap(p=>p.tags))];
+    const allTagsEn=['All',...new Set(C.projets.flatMap(p=>p.tags_en||p.tags))];
+    document.querySelectorAll('.fbtn').forEach((btn,idx)=>{
+      if(idx<allTags.length) btn.textContent=lang==='en'?allTagsEn[idx]:allTags[idx];
+    });
+    
+    // Projects titles
+    document.querySelectorAll('.pgrid .pb h3').forEach((h3,idx)=>{
+      if(C.projets[idx]) h3.textContent=txt(C.projets[idx].t,C.projets[idx].t_en);
+    });
+    
+    // Certifications
+    document.querySelectorAll('.cc-name').forEach((el,idx)=>{
+      if(C.certs[idx]) el.textContent=txt(C.certs[idx].n,C.certs[idx].n_en);
+    });
+    
+    // Contact
+    document.getElementById('cth').textContent=txt(C.ctH,C.ctH_en);
+    document.getElementById('cts').textContent=txt(C.ctS,C.ctS_en);
+    
+    document.querySelectorAll('.clink .cl-l').forEach((el,idx)=>{
+      if(C.ctL[idx]) el.textContent=txt(C.ctL[idx].l,C.ctL[idx].l_en);
+    });
+    
+    // Form select
+    const sel=document.querySelector('select[name="subject"]');
+    sel.innerHTML=`<option value="" disabled selected>${txt('Objet du message','Message subject')}</option>`;
+    (lang==='en'?C.ctSuj_en:C.ctSuj).forEach(s=>sel.innerHTML+=`<option value="${s}">${s}</option>`);
+  }
 
   function txt(fr,en){return lang==='en'?en:fr;}
 
